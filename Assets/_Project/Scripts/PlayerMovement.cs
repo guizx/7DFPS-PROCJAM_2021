@@ -60,12 +60,13 @@ public class PlayerMovement : MonoBehaviour {
 
     
     private void FixedUpdate() {
-        Movement();
+        //Movement();
     }
 
     private void Update() {
         MyInput();
         Look();
+        Movement();
     }
 
     /// <summary>
@@ -147,9 +148,11 @@ public class PlayerMovement : MonoBehaviour {
         
         // Movement in air
         if (!grounded) {
+            playerAnimator.SetBool("Grounded", false);
             multiplier = 0.5f;
             multiplierV = 0.5f;
         }
+        else playerAnimator.SetBool("Grounded", true);
         
         // Movement while sliding
         if (grounded && crouching) multiplierV = 0f;

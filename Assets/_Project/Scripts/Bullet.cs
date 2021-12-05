@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
     private void OnCollisionEnter(Collision other) {
         if(other.gameObject.tag != "bullet" && other.gameObject.tag != "Player" && !collided){
             collided = true;
+            Debug.Log(other.gameObject.name);
             var impact = Instantiate( impactPrefab, other.contacts[0].point, Quaternion.identity) as GameObject;
             Destroy(impact, 2);
             Destroy(gameObject);

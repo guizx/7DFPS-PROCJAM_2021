@@ -20,9 +20,9 @@ public class PlayerShoot : MonoBehaviour
     }
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
-        if(Input.GetButton("Fire1") && Time.time >= timeToFire){
+        if(Input.GetButton("Fire1") /*&& Time.time >= timeToFire*/){
             Debug.Log(Time.time);
             timeToFire = Time.time + 1.0f/fireRate;
             Shoot();
@@ -46,6 +46,8 @@ public class PlayerShoot : MonoBehaviour
         muzzle.Play();
         var projectileObj = Instantiate (projectilePrefab, point.position, Quaternion.LookRotation(destination)) as GameObject;
         //Vector3 inheritedVelocity = playerRB.GetPointVelocity(playerRB.gameObject.transform.position);
+        //Vector3 inheritedVelocity = playerRB.velocity;
+        //projectileObj.GetComponent<Rigidbody>().velocity = inheritedVelocity + (destination - point.position).normalized * projectileSpeed;
         projectileObj.GetComponent<Rigidbody>().velocity = (destination - point.position).normalized * projectileSpeed;
         //projectileObj.GetComponent<Rigidbody>().AddForce(inheritedVelocity, ForceMode.Impulse);
     }
