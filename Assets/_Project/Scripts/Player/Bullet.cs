@@ -17,15 +17,15 @@ public class Bullet : MonoBehaviour
         transform.position += shootDirection * speed * Time.deltaTime;
     }
     
-    private void OntriggerEnter(Collision other) {
+    private void OnCollisionEnter(Collision other) {
         if(other.gameObject.tag != "bullet" && other.gameObject.tag != "Player" && !collided){
             collided = true;
-            //Debug.Log(other.gameObject.name);
+            Debug.Log("Bullet collided with " + other.gameObject.name);
             var impact = Instantiate( impactPrefab, other.contacts[0].point, Quaternion.identity) as GameObject;
             Destroy(impact, 2);
             Destroy(gameObject);
             if(other.gameObject.tag == "Enemy"){
-                Destroy(other.gameObject);
+                other.gameObject.GetComponent<Enemy>().Hit();
             }
         }
     }

@@ -6,7 +6,8 @@ public class Enemy : Modifier
 {
     public Rigidbody myRb;
     public GameObject playerObj;
-    public float orbitRadius, gravityVelocity, findPlayerRate;
+    public SpawnMod mySpawner;
+    public float orbitRadius, gravityVelocity, findPlayerRate, speed;
     Vector3 playerDistance, gravityVector;
 
     // Start is called before the first frame update
@@ -14,15 +15,16 @@ public class Enemy : Modifier
     {
         myRb = GetComponent<Rigidbody>();
         playerObj = GameObject.Find("Player");
-        gravityVector = new Vector3(0, gravityVelocity, 0);
+        //gravityVector = new Vector3(0, gravityVelocity, 0);
         InvokeRepeating("FindPlayer", 0.0f, findPlayerRate);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerObj.transform.position), Time.deltaTime);
-        myRb.velocity = Vector3.Lerp(Vector3.zero, playerDistance, playerDistance.magnitude) * modifier * multiplier;
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerObj.transform.position), Time.deltaTime / modifier * multiplier);
+        transform.LookAt(playerObj.transform);
+        myRb.velocity = Vector3.Lerp(Vector3.zero, playerDistance, playerDistance.magnitude) * modifier * multiplier; ;//
         //myRb.MovePosition(transform.position + playerDistance.normalized * Time.deltaTime * speed);
     }
 
@@ -30,5 +32,14 @@ public class Enemy : Modifier
         playerDistance = playerObj.transform.position - this.transform.position;
         playerDistance = new Vector3(playerDistance.x + Random.Range(-orbitRadius, orbitRadius), playerDistance.y, playerDistance.z + Random.Range(-orbitRadius, orbitRadius));
         //this.transform.LookAt(playerDistance);
+    }
+
+    public void Hit(){
+        Die();
+    }
+
+    void Die(){
+        mySpawner.enemyCount--;
+        Destroy(gameObject);
     }
 }

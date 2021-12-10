@@ -48,8 +48,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifier: 1
-  multiplier: 0.1
+  multiplier: 0.5
+  limitMax: 1
+  limitMin: 0
   smooth: 1
+  multiply: 1
+  limit: 0
   rangeToFollow: 0
   heightOnly: 0
 --- !u!54 &1091404000
@@ -94,14 +98,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   modifier: 1
-  multiplier: 2
+  multiplier: 1
+  limitMax: 1
+  limitMin: 0
   smooth: 1
+  multiply: 0
+  limit: 0
   rangeToFollow: 0
   myRb: {fileID: 0}
   playerObj: {fileID: 0}
   orbitRadius: 10
   gravityVelocity: -10
   findPlayerRate: 1
+  speed: 5
 --- !u!95 &2844494804471585968
 Animator:
   serializedVersion: 3
@@ -135,7 +144,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modifier: 1
   multiplier: 1
+  limitMax: 1
+  limitMin: 0
   smooth: 1
+  multiply: 0
+  limit: 0
   rangeToFollow: 0
   anim: {fileID: 2844494804471585968}
   ParamName: Bite
@@ -156,7 +169,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modifier: 0
   multiplier: 1.1
+  limitMax: 1
+  limitMin: 0
   smooth: 1
+  multiply: 0
+  limit: 0
   rangeToFollow: 0
   heightOnly: 0
 --- !u!1001 &2844494805233163511

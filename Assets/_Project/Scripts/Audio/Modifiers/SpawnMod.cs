@@ -12,12 +12,14 @@ public class SpawnMod : Modifier
     // Start is called before the first frame update
     void Start()
     {
-        
+        GetComponent<ScaleMod>().rangeToFollow = rangeToFollow;
+        GetComponentInChildren<EmissionMod>().rangeToFollow = rangeToFollow;
     }
 
     // Update is called once per frame
     void Update()
     {
+        Modify();
         if(modifier > threshold && !wait && enemyCount < enemyLimit){
             StartCoroutine(Spawn());
         }
@@ -26,7 +28,9 @@ public class SpawnMod : Modifier
     IEnumerator Spawn(){
         wait = true;
         Enemy enemyInstance = Instantiate(enemy.gameObject, spawnPoint.position, Quaternion.identity, spawnPoint).GetComponent<Enemy>();
-        enemyInstance.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-enemyVel, enemyVel), Random.Range(-enemyVel, enemyVel), Random.Range(-enemyVel, enemyVel));
+        enemyInstance.rangeToFollow = rangeToFollow;
+        enemyInstance.mySpawner = GetComponent<SpawnMod>();
+        //enemyInstance.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-enemyVel, enemyVel), Random.Range(-enemyVel, enemyVel), Random.Range(-enemyVel, enemyVel));
         enemyCount++;
         yield return new WaitForSeconds(delay);
         wait = false;

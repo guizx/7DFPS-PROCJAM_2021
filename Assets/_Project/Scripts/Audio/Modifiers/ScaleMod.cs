@@ -16,8 +16,8 @@ public class ScaleMod : Modifier
     void Update()
     {
         Modify();
-        if(heightOnly) modifiedScale = new Vector3(baseScale.x, (modifier * multiplier) + baseScale.y, baseScale.z);
-        else modifiedScale = new Vector3((modifier * multiplier) + baseScale.x, (modifier * multiplier) + baseScale.y, (modifier * multiplier) + baseScale.z);
+        if(heightOnly) modifiedScale = new Vector3(baseScale.x, modifier + baseScale.y, baseScale.z);
+        else modifiedScale = new Vector3(modifier + baseScale.x, modifier + baseScale.y, modifier + baseScale.z);
         //else modifiedScale = new Vector3((AudioPeer.audioBandBuffer[(int)rangeToFollow] * multiplier) + baseScale.x, (AudioPeer.audioBandBuffer[(int)rangeToFollow] * multiplier) + baseScale.y, (AudioPeer.audioBandBuffer[(int)rangeToFollow] * multiplier) + baseScale.z);
         //if(!float.IsNaN(modifiedScale.x)) transform.localScale = modifiedScale;
         //transform.localScale = baseScale * modifier * multiplier;

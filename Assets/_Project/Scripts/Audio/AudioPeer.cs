@@ -14,12 +14,22 @@ public class AudioPeer : MonoBehaviour
     float[] _freqBandHighest = new float[8];
     [SerializeField] public static float[] audioBand = new float[8];
     [SerializeField] public static float[] audioBandBuffer = new float[8];
-
     [SerializeField] public static float bandSum, bandBufferSum;
+    [SerializeField] public static float amplitude, amplitudeBuffer;
+    float amplitudeHighest;
+    public float audioProfile;
     // Start is called before the first frame update
     void Start()
     {
         _audioSource = GetComponent<AudioSource>();
+        AudioProfile(audioProfile);
+    }
+
+    void AudioProfile(float audioProfile){
+        for (int i = 0; i < 8; i++)
+        {
+            _freqBandHighest [i] = audioProfile;
+        }
     }
 
     // Update is called once per frame
@@ -30,6 +40,24 @@ public class AudioPeer : MonoBehaviour
         BandBuffer();
         CreateAudioBands();
         SumBands();
+        GetAmplitude();
+    }
+
+    void GetAmplitude(){
+        float currentAmplitude = 0;
+        float currentAmplitudeBuffer = 0;
+        for (int i = 0; i < 8; i++)
+        {
+            currentAmplitude = audioBand[i];
+            currentAmplitudeBuffer = audioBandBuffer[i];
+        }
+
+        if(currentAmplitude > amplitudeHighest){
+            amplitudeHighest = currentAmplitude;
+        }
+        amplitude = currentAmplitude / amplitudeHighest;
+        amplitudeBuffer = currentAmplitudeBuffer / amplitudeHighest;
+
     }
 
     void CreateAudioBands(){

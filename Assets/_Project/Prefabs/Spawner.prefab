@@ -78,7 +78,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modifier: 1
   multiplier: 0.1
+  limitMax: 1
+  limitMin: 0
   smooth: 1
+  multiply: 1
+  limit: 0
   rangeToFollow: 0
   heightOnly: 1
 --- !u!114 &711265122
@@ -95,11 +99,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   modifier: 1
   multiplier: 1
+  limitMax: 1
+  limitMin: 0
   smooth: 1
+  multiply: 1
+  limit: 1
   rangeToFollow: 0
   spawnPoint: {fileID: 50474459}
   enemy: {fileID: -3881162849423247914, guid: 65c0c5823aa558f4e9d9c5a6cd3df8ce, type: 3}
-  enemyVel: 5
+  enemyVel: 1
   threshold: 0.8
   delay: 0.5
   enemyCount: 0
@@ -118,6 +126,26 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -5495902117074765545, guid: 08f4fba791296e942a3510bd3b487a4a, type: 3}
+--- !u!114 &4642231998046370926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 813129897814853973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f896e5e37244c9a44985386d7d566d27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  modifier: 1
+  multiplier: 2
+  limitMax: 1.5
+  limitMin: 0.5
+  smooth: 1
+  multiply: 1
+  limit: 1
+  rangeToFollow: 0
 --- !u!1001 &543168109826814980
 PrefabInstance:
   m_ObjectHideFlags: 0
