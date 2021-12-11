@@ -7,12 +7,14 @@ public class PlayerShoot : MonoBehaviour
     public Animator anim;
     public Camera cam;
     public Rigidbody playerRB;
-    public GameObject projectilePrefab;
+    public GameObject projectilePrefab, burstPrefab;
     public ParticleSystem muzzle;
     public Transform firePoint;
-    public float maxDistance, projectileSpeed, fireRate;
-    [SerializeField] float timeToFire;
+    public LayerMask enemyLayers;
+    public float maxDistance, projectileSpeed, burstRange, regularRate, burstRate;
+    float fireRate, timeToFire;
     Vector3 destination;
+    bool burst;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,13 +24,27 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(burst)fireRate = burstRate;
+        else fireRate = regularRate;
+        
         if(Input.GetMouseButton(0) && Time.time >= timeToFire){
+            burst = false;
             Debug.Log(Time.time);
             timeToFire = Time.time + 1.0f/fireRate;
             anim.SetBool("Shooting", true);
             Shoot();
         }
-        else if(Input.GetMouseButtonUp(0)){
+        if(Input.GetMouseButtonUp(0)){
+            anim.SetBool("Shooting", false);
+        }
+        if(Input.GetMouseButton(1) && Time.time >= timeToFire){
+            burst = true;
+            Debug.Log(Time.time);
+            timeToFire = Time.time + 1.0f/fireRate;
+            anim.SetBool("Shooting", true);
+            BurstShoot();
+        }
+        if(Input.GetMouseButtonUp(1)){
             anim.SetBool("Shooting", false);
         }
     }
@@ -43,6 +59,12 @@ public class PlayerShoot : MonoBehaviour
         //else destination = ray.GetPoint(maxDistance);
         //destination = ray.direction;
         InstantiateProjectile(ray.direction);
+    }
+    void BurstShoot(){
+        muzzle.Play();
+        Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
+        var burst = Instantiate(burstPrefab, firePoint);
+        Destroy(burst, 1);
     }
 
     void InstantiateProjectile(Vector3 direction){

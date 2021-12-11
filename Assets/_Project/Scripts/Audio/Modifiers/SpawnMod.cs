@@ -5,6 +5,7 @@ using UnityEngine;
 public class SpawnMod : Modifier
 {
     public SpawnerController spawnerController;
+    public LevelController level;
     public Transform mySpawnPoint, enemySpawnPoint;
     public Enemy enemy;
     public GameObject birthParticle;
@@ -15,6 +16,8 @@ public class SpawnMod : Modifier
     // Start is called before the first frame update
     public void Initialize(int range, Transform spawnPoint)
     {
+        level = GameObject.Find("Level").GetComponent<LevelController>();
+
         wait = true;
         mySpawnPoint = spawnPoint;
         spawnerController = GameObject.Find("SpawnerController").GetComponent<SpawnerController>();
@@ -60,6 +63,7 @@ public class SpawnMod : Modifier
     }
 
     void Die(){
+        level.AddScore(100);
         var deathp = Instantiate(birthParticle, transform, false);
         spawnerController.SpawnDeath(this, (int)rangeToFollow, mySpawnPoint);
         LeanTween.moveY(gameObject, -15.0f, 1.0f).setOnComplete(FinishDeath);
@@ -68,5 +72,10 @@ public class SpawnMod : Modifier
 
     void FinishDeath(){
         Destroy(gameObject);
+    }
+
+    public void EnemyDie(){
+        level.AddScore(10);
+        enemyCount--;
     }
 }

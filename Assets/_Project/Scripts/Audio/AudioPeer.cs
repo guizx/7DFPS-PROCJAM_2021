@@ -6,7 +6,7 @@ using System.Linq;
 [RequireComponent (typeof (AudioSource))]
 public class AudioPeer : MonoBehaviour
 {
-    AudioSource _audioSource;
+    public AudioSource _audioSource;
     public static float[] _samples = new float[512]; //this divs the waves of amplitude coming from the song into this number
     float[] _freqBand = new float[8]; //this groups and avareges ranges of samples
     float[] _bandBuffer = new float[8]; //this smooth bands numbers through the frames

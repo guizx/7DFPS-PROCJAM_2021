@@ -45,7 +45,7 @@ public class Enemy : Modifier
     }
 
     void Die(){
-        mySpawner.enemyCount--;
+        mySpawner.EnemyDie();
         var deathp = Instantiate(deathParticle, transform.position, Quaternion.identity);
         Destroy(deathp, 2);
         Destroy(gameObject);
