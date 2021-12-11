@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7741372615278266481}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.075, y: -0.15200835, z: 1.807}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 7846493335723987995}
@@ -46,7 +46,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.1
+  m_Radius: 0.3
   m_Center: {x: 0, y: 0, z: 0.19}
 --- !u!114 &8417200726217402137
 MonoBehaviour:
@@ -61,6 +61,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   impactPrefab: {fileID: 4556892109653640095, guid: a03bb8f7123b0a44a8a27ff8787a2f43,
+    type: 3}
+  spawnImpactPrefab: {fileID: 3134723637540897038, guid: 98ffbdeb72bf7704f8aa109d75260d82,
     type: 3}
   lifeTime: 5
   speed: 25

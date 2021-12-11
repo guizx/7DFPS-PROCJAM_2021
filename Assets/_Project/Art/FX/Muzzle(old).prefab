@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5766173531149515014}
   - component: {fileID: 5766173531149515015}
   m_Layer: 0
-  m_Name: Muzzle
+  m_Name: Muzzle(old)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5766173531149515013}
   m_LocalRotation: {x: 0.5499754, y: -0.44444022, z: -0.53463066, w: 0.4627851}
-  m_LocalPosition: {x: -0.0067, y: 0.0007, z: -0.002}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.044616688, y: 0.044616695, z: 0.044616695}
   m_Children: []
   m_Father: {fileID: 0}

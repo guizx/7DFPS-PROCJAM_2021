@@ -5,7 +5,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     bool collided;
-    public GameObject impactPrefab;
+    public GameObject impactPrefab, spawnImpactPrefab;
     public float lifeTime, speed;
     Vector3 shootDirection;
     public void Setup(Vector3 direction) {
@@ -26,6 +26,11 @@ public class Bullet : MonoBehaviour
             Destroy(gameObject);
             if(other.gameObject.tag == "Enemy"){
                 other.gameObject.GetComponent<Enemy>().Hit();
+            }
+            else if(other.gameObject.tag == "Spawner"){
+                var spawnImpact = Instantiate(spawnImpactPrefab, other.contacts[0].point, Quaternion.identity) as GameObject;
+                Destroy(spawnImpact, 2);
+                other.gameObject.GetComponent<SpawnMod>().Hit();
             }
         }
     }

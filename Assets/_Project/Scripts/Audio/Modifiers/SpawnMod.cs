@@ -4,16 +4,33 @@ using UnityEngine;
 
 public class SpawnMod : Modifier
 {
-    public Transform spawnPoint;
+    public SpawnerController spawnerController;
+    public Transform mySpawnPoint, enemySpawnPoint;
     public Enemy enemy;
-    public float enemyVel, threshold, delay = 0.5f;
+    public GameObject birthParticle;
+    public EmissionMod emissionMod;
+    public float health, enemyVel, threshold, delay = 0.5f;
     public int enemyCount, enemyLimit;
     bool wait;
     // Start is called before the first frame update
-    void Start()
+    public void Initialize(int range, Transform spawnPoint)
     {
+        wait = true;
+        mySpawnPoint = spawnPoint;
+        spawnerController = GameObject.Find("SpawnerController").GetComponent<SpawnerController>();
+        rangeToFollow = (Range)range;
         GetComponent<ScaleMod>().rangeToFollow = rangeToFollow;
-        GetComponentInChildren<EmissionMod>().rangeToFollow = rangeToFollow;
+        emissionMod = GetComponentInChildren<EmissionMod>();
+        emissionMod.rangeToFollow = rangeToFollow;
+        
+        var birthp = Instantiate(birthParticle, transform, false);
+        Destroy(birthp, 2);
+
+        LeanTween.moveY(gameObject, 0, 1.0f).setOnComplete(DontWait);
+    }
+
+    void DontWait(){
+        wait = false;
     }
 
     // Update is called once per frame
@@ -27,12 +44,29 @@ public class SpawnMod : Modifier
 
     IEnumerator Spawn(){
         wait = true;
-        Enemy enemyInstance = Instantiate(enemy.gameObject, spawnPoint.position, Quaternion.identity, spawnPoint).GetComponent<Enemy>();
+        Enemy enemyInstance = Instantiate(enemy.gameObject, enemySpawnPoint.position, Quaternion.identity).GetComponent<Enemy>();
         enemyInstance.rangeToFollow = rangeToFollow;
         enemyInstance.mySpawner = GetComponent<SpawnMod>();
         //enemyInstance.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-enemyVel, enemyVel), Random.Range(-enemyVel, enemyVel), Random.Range(-enemyVel, enemyVel));
         enemyCount++;
         yield return new WaitForSeconds(delay);
         wait = false;
+    }
+
+    public void Hit(){
+        emissionMod.TweenColor();
+        health--;
+        if(health == 0) Die();
+    }
+
+    void Die(){
+        var deathp = Instantiate(birthParticle, transform, false);
+        spawnerController.SpawnDeath(this, (int)rangeToFollow, mySpawnPoint);
+        LeanTween.moveY(gameObject, -15.0f, 1.0f).setOnComplete(FinishDeath);
+        Destroy(deathp, 2);
+    }
+
+    void FinishDeath(){
+        Destroy(gameObject);
     }
 }

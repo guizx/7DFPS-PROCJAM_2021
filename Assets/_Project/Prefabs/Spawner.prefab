@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50474458}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 13.28, z: 0}
+  m_LocalPosition: {x: 0, y: 13.52, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 543168110644192119}
@@ -41,9 +41,10 @@ GameObject:
   - component: {fileID: 543168110644192119}
   - component: {fileID: 543168110644192118}
   - component: {fileID: 711265122}
+  - component: {fileID: 7670952310351305011}
   m_Layer: 0
   m_Name: Spawner
-  m_TagString: Untagged
+  m_TagString: Spawner
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -56,7 +57,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 543168110644192121}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -5.69, y: -2.51, z: 11.93}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 846597666722799}
@@ -80,6 +81,15 @@ MonoBehaviour:
   multiplier: 0.1
   limitMax: 1
   limitMin: 0
+  allModifiers:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   smooth: 1
   multiply: 1
   limit: 0
@@ -101,31 +111,45 @@ MonoBehaviour:
   multiplier: 1
   limitMax: 1
   limitMin: 0
+  allModifiers:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   smooth: 1
   multiply: 1
   limit: 1
   rangeToFollow: 0
-  spawnPoint: {fileID: 50474459}
+  spawnerController: {fileID: 0}
+  mySpawnPoint: {fileID: 0}
+  enemySpawnPoint: {fileID: 50474459}
   enemy: {fileID: -3881162849423247914, guid: 65c0c5823aa558f4e9d9c5a6cd3df8ce, type: 3}
+  birthParticle: {fileID: 8238969255888539010, guid: 760596aded06bdd4189704f1d54af300,
+    type: 3}
+  emissionMod: {fileID: 4642231998046370926}
+  health: 5
   enemyVel: 1
   threshold: 0.8
-  delay: 0.5
+  delay: 2
   enemyCount: 0
   enemyLimit: 8
---- !u!64 &1746063175
-MeshCollider:
+--- !u!65 &7670952310351305011
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 813129897814853973}
+  m_GameObject: {fileID: 543168110644192121}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -5495902117074765545, guid: 08f4fba791296e942a3510bd3b487a4a, type: 3}
+  serializedVersion: 2
+  m_Size: {x: 2.9807582, y: 12.316349, z: 2.5480814}
+  m_Center: {x: 0.006842375, y: 6.529234, z: -0.011322498}
 --- !u!114 &4642231998046370926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,6 +166,15 @@ MonoBehaviour:
   multiplier: 2
   limitMax: 1.5
   limitMin: 0.5
+  allModifiers:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   smooth: 1
   multiply: 1
   limit: 1

@@ -22,7 +22,7 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetMouseButton(0) /*&& Time.time >= timeToFire*/){
+        if(Input.GetMouseButton(0) && Time.time >= timeToFire){
             Debug.Log(Time.time);
             timeToFire = Time.time + 1.0f/fireRate;
             anim.SetBool("Shooting", true);

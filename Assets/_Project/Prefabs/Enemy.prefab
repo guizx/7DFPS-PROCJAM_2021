@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2844494804945412940}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.21, y: 0, z: 4.5}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children:
   - {fileID: 2374265107277462300}
@@ -51,6 +51,15 @@ MonoBehaviour:
   multiplier: 0.5
   limitMax: 1
   limitMin: 0
+  allModifiers:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   smooth: 1
   multiply: 1
   limit: 0
@@ -94,23 +103,38 @@ MonoBehaviour:
   m_GameObject: {fileID: 2844494804945412940}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38d0c9a03f1094a4da84d2338b45fd6a, type: 3}
+  m_Script: {fileID: 11500000, guid: b0a6573cb3a4bb74cb4bac6efed48490, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   modifier: 1
-  multiplier: 1
+  multiplier: 0.7
   limitMax: 1
   limitMin: 0
-  smooth: 1
+  allModifiers:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  smooth: 0
   multiply: 0
   limit: 0
   rangeToFollow: 0
   myRb: {fileID: 0}
+  myEmissionMod: {fileID: 0}
   playerObj: {fileID: 0}
-  orbitRadius: 10
-  gravityVelocity: -10
+  deathParticle: {fileID: 190594131193234095, guid: 345aa01636b4dbe418644f9b63d2c900,
+    type: 3}
+  birthParticle: {fileID: 896195511505135826, guid: 3b04b55067c60ef4db7b5c5e743e5536,
+    type: 3}
+  mySpawner: {fileID: 0}
+  orbitRadius: 5
+  gravityVelocity: 0
   findPlayerRate: 1
-  speed: 5
+  health: 0
 --- !u!95 &2844494804471585968
 Animator:
   serializedVersion: 3
@@ -146,6 +170,15 @@ MonoBehaviour:
   multiplier: 1
   limitMax: 1
   limitMin: 0
+  allModifiers:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   smooth: 1
   multiply: 0
   limit: 0
@@ -171,6 +204,15 @@ MonoBehaviour:
   multiplier: 1.1
   limitMax: 1
   limitMin: 0
+  allModifiers:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   smooth: 1
   multiply: 0
   limit: 0
