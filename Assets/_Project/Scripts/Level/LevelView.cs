@@ -7,6 +7,7 @@ public class LevelView : MonoBehaviour
 {
     public LevelModel levelModel;
     public Text titleText, timerText, scoreText, bestScoreText;
+    public GameObject pauseWindow;
     // Start is called before the first frame update
     public void Initialize()
     {
@@ -28,5 +29,13 @@ public class LevelView : MonoBehaviour
         float seconds = Mathf.FloorToInt(levelModel.timeRemaining % 60);
 
         timerText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+    }
+
+    public void Pause(){
+        pauseWindow.SetActive(true);
+    }
+
+    public void Resume(){
+        pauseWindow.SetActive(false);
     }
 }

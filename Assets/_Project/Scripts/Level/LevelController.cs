@@ -36,9 +36,31 @@ public class LevelController : MonoBehaviour
                 levelModel.timeIsRunning = false;
             }
         }
-    }
 
+        if(Input.GetKeyDown(KeyCode.Escape)){
+            Pause();
+        }
+    }
     public void AddScore(int score){
         levelModel.score += score;
+    }
+    public void Pause(){
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+        Time.timeScale = 0.0f;
+        levelView.Pause();
+        levelModel.timeIsRunning = false;
+    }
+
+    public void Resume(){
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Time.timeScale = 1.0f;
+        levelView.Resume();
+        levelModel.timeIsRunning = true;
+    }
+
+    public void Exit(){
+        Application.Quit();
     }
 }
