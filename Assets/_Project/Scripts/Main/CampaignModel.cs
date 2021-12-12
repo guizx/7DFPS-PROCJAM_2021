@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CampaignModel : MonoBehaviour
+public static class CampaignModel
 {
-    public List<CampaignData> campaigns = new List<CampaignData>();
+    public static List<CampaignData> campaigns = new List<CampaignData>();
 }

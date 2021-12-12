@@ -8,6 +8,7 @@ public class LevelInfo : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log(data.title + " level info created!");
         DontDestroyOnLoad(this.gameObject);
     }
 }

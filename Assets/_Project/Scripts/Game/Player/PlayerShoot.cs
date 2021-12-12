@@ -14,11 +14,12 @@ public class PlayerShoot : MonoBehaviour
     public float maxDistance, projectileSpeed, burstRange, regularRate, burstRate;
     float fireRate, timeToFire;
     Vector3 destination;
+    LevelController levelController;
     bool burst;
     // Start is called before the first frame update
     void Start()
     {
-        
+        levelController = GameObject.Find("Level").GetComponent<LevelController>();
     }
 
     // Update is called once per frame
@@ -27,7 +28,7 @@ public class PlayerShoot : MonoBehaviour
         if(burst)fireRate = burstRate;
         else fireRate = regularRate;
         
-        if(Input.GetMouseButton(0) && Time.time >= timeToFire){
+        if(Input.GetMouseButton(0) && Time.time >= timeToFire && !levelController.pause){
             burst = false;
             Debug.Log(Time.time);
             timeToFire = Time.time + 1.0f/fireRate;
@@ -37,7 +38,7 @@ public class PlayerShoot : MonoBehaviour
         if(Input.GetMouseButtonUp(0)){
             anim.SetBool("Shooting", false);
         }
-        if(Input.GetMouseButton(1) && Time.time >= timeToFire){
+        if(Input.GetMouseButton(1) && Time.time >= timeToFire && !levelController.pause){
             burst = true;
             Debug.Log(Time.time);
             timeToFire = Time.time + 1.0f/fireRate;

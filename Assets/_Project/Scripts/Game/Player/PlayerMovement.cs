@@ -48,11 +48,14 @@ public class PlayerMovement : MonoBehaviour {
     private Vector3 normalVector = Vector3.up;
     private Vector3 wallNormalVector;
 
+    LevelController levelController;
+
     void Awake() {
         rb = GetComponent<Rigidbody>();
     }
     
     void Start() {
+        levelController = GameObject.Find("Level").GetComponent<LevelController>();
         playerScale =  transform.localScale;
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -64,9 +67,9 @@ public class PlayerMovement : MonoBehaviour {
     }
 
     private void Update() {
-        MyInput();
-        Look();
-        Movement();
+        if(!levelController.pause)MyInput();
+        if(!levelController.pause)Look();
+        if(!levelController.pause)Movement();
     }
 
     /// <summary>

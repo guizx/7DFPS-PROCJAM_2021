@@ -7,7 +7,7 @@ public class LevelView : MonoBehaviour
 {
     public LevelModel levelModel;
     public Text titleText, timerText, scoreText, bestScoreText;
-    public GameObject pauseWindow;
+    public GameObject pauseWindow, gameOverWindow, levelFinishedWindow;
     // Start is called before the first frame update
     public void Initialize()
     {
@@ -37,5 +37,13 @@ public class LevelView : MonoBehaviour
 
     public void Resume(){
         pauseWindow.SetActive(false);
+    }
+
+    public void GameOver(){
+        gameOverWindow.SetActive(true);
+    }
+
+    public void LevelFinished(){
+        levelFinishedWindow.SetActive(true);
     }
 }
