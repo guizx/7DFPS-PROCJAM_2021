@@ -125,6 +125,7 @@ MonoBehaviour:
   limit: 1
   rangeToFollow: 0
   spawnerController: {fileID: 0}
+  level: {fileID: 0}
   mySpawnPoint: {fileID: 0}
   enemySpawnPoint: {fileID: 50474459}
   enemy: {fileID: -3881162849423247914, guid: 65c0c5823aa558f4e9d9c5a6cd3df8ce, type: 3}
@@ -134,7 +135,7 @@ MonoBehaviour:
   health: 5
   enemyVel: 1
   threshold: 0.8
-  delay: 2
+  delay: 1.5
   enemyCount: 0
   enemyLimit: 8
 --- !u!65 &7670952310351305011

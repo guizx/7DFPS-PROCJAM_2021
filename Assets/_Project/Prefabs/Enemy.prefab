@@ -131,7 +131,7 @@ MonoBehaviour:
   birthParticle: {fileID: 896195511505135826, guid: 3b04b55067c60ef4db7b5c5e743e5536,
     type: 3}
   mySpawner: {fileID: 0}
-  orbitRadius: 5
+  orbitRadius: 4
   gravityVelocity: 0
   findPlayerRate: 1
   health: 0

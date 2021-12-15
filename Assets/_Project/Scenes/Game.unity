@@ -8481,8 +8481,8 @@ MonoBehaviour:
   maxDistance: 1000
   projectileSpeed: 25
   burstRange: 50
-  regularRate: 6
-  burstRate: 3
+  regularRate: 5
+  burstRate: 1
 --- !u!54 &1442646850
 Rigidbody:
   m_ObjectHideFlags: 0
