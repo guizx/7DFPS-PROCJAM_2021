@@ -129,6 +129,17 @@ MonoBehaviour:
   mySpawnPoint: {fileID: 0}
   enemySpawnPoint: {fileID: 50474459}
   enemy: {fileID: -3881162849423247914, guid: 65c0c5823aa558f4e9d9c5a6cd3df8ce, type: 3}
+  enemies:
+  - {fileID: -3881162849423247914, guid: a3a694e1144fd64478493f32f87ac0be, type: 3}
+  - {fileID: -3881162849423247914, guid: 65c0c5823aa558f4e9d9c5a6cd3df8ce, type: 3}
+  - {fileID: -3881162849423247914, guid: f62586e33f64d7f4c9abd63b600c81f7, type: 3}
+  - {fileID: -3881162849423247914, guid: 6c7e3335054487145bb3ff96c7b6d5c8, type: 3}
+  myRend: {fileID: 1173237341161957504}
+  materials:
+  - {fileID: 2100000, guid: 4d221c4019e91154295319f8ed212760, type: 2}
+  - {fileID: 2100000, guid: 3b38877ab1a71ce4da83c373b9ccace1, type: 2}
+  - {fileID: 2100000, guid: 7b2b65fc1bce58947bd6d5a444e5db4a, type: 2}
+  - {fileID: 2100000, guid: 0803f9cc2f0a09047974621a74a84fc3, type: 2}
   birthParticle: {fileID: 8238969255888539010, guid: 760596aded06bdd4189704f1d54af300,
     type: 3}
   emissionMod: {fileID: 4642231998046370926}
@@ -268,6 +279,12 @@ GameObject:
 --- !u!4 &846597666722799 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 08f4fba791296e942a3510bd3b487a4a,
+    type: 3}
+  m_PrefabInstance: {fileID: 543168109826814980}
+  m_PrefabAsset: {fileID: 0}
+--- !u!23 &1173237341161957504 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 08f4fba791296e942a3510bd3b487a4a,
     type: 3}
   m_PrefabInstance: {fileID: 543168109826814980}
   m_PrefabAsset: {fileID: 0}

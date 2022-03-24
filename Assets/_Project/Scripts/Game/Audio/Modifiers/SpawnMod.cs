@@ -8,6 +8,9 @@ public class SpawnMod : Modifier
     public LevelController level;
     public Transform mySpawnPoint, enemySpawnPoint;
     public Enemy enemy;
+    public Enemy[] enemies;
+    public Renderer myRend;
+    public Material[] materials;
     public GameObject birthParticle;
     public EmissionMod emissionMod;
     public float health, enemyVel, threshold, delay = 0.5f;
@@ -30,6 +33,31 @@ public class SpawnMod : Modifier
         Destroy(birthp, 2);
 
         LeanTween.moveY(gameObject, 0, 1.0f).setOnComplete(DontWait);
+
+        //refactor this later
+        switch (range)
+        {
+            case 0:
+            enemy = enemies[0];
+            myRend.material = materials[0];
+            break;
+            case 1:
+            case 2:
+            enemy = enemies[1];
+            myRend.material = materials[1];
+            break;
+            case 3:
+            case 4:
+            case 5:
+            enemy = enemies[2];
+            myRend.material = materials[2];
+            break;
+            case 6:
+            case 7:
+            enemy = enemies[3];
+            myRend.material = materials[3];
+            break;
+        }
     }
 
     void DontWait(){
