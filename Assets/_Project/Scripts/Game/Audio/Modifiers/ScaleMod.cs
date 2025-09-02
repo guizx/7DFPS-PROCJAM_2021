@@ -21,6 +21,14 @@ public class ScaleMod : Modifier
         //else modifiedScale = new Vector3((AudioPeer.audioBandBuffer[(int)rangeToFollow] * multiplier) + baseScale.x, (AudioPeer.audioBandBuffer[(int)rangeToFollow] * multiplier) + baseScale.y, (AudioPeer.audioBandBuffer[(int)rangeToFollow] * multiplier) + baseScale.z);
         //if(!float.IsNaN(modifiedScale.x)) transform.localScale = modifiedScale;
         //transform.localScale = baseScale * modifier * multiplier;
-        transform.localScale = modifiedScale;
+
+        Vector3 safeScale = modifiedScale;
+
+        // Check if any component is NaN
+        if (float.IsNaN(safeScale.x) || float.IsInfinity(safeScale.x)) safeScale.x = 0f;
+        if (float.IsNaN(safeScale.y) || float.IsInfinity(safeScale.y)) safeScale.y = 0f;
+        if (float.IsNaN(safeScale.z) || float.IsInfinity(safeScale.z)) safeScale.z = 0f;
+
+        transform.localScale = safeScale;
     }
 }

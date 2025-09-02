@@ -26,12 +26,15 @@ public class Enemy : Modifier
     void Update()
     {
         //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(playerObj.transform.position), Time.deltaTime / modifier * multiplier);
+        if (playerObj == null)
+            return;
         transform.LookAt(playerObj.transform);
         myRb.velocity = Vector3.Lerp(Vector3.zero, playerDistance, playerDistance.magnitude) * modifier * multiplier; ;//
         //myRb.MovePosition(transform.position + playerDistance.normalized * Time.deltaTime * speed);
     }
 
     void FindPlayer(){
+        if(playerObj == null) return;
         playerDistance = playerObj.transform.position - this.transform.position;
         playerDistance = new Vector3(playerDistance.x + Random.Range(-orbitRadius, orbitRadius), playerDistance.y, playerDistance.z + Random.Range(-orbitRadius, orbitRadius));
         //this.transform.LookAt(playerDistance);
