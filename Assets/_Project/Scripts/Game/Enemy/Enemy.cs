@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Enemy : Modifier
 {
@@ -10,6 +11,12 @@ public class Enemy : Modifier
     public SpawnMod mySpawner;
     public float orbitRadius, gravityVelocity, findPlayerRate, health;
     Vector3 playerDistance, gravityVector;
+
+    public UnityEvent OnDied;
+
+    public AudioClip dieClip;
+
+    public static System.Action OnEnemyDied;
 
     // Start is called before the first frame update
     void Start()
@@ -29,7 +36,7 @@ public class Enemy : Modifier
         if (playerObj == null)
             return;
         transform.LookAt(playerObj.transform);
-        myRb.velocity = Vector3.Lerp(Vector3.zero, playerDistance, playerDistance.magnitude) * modifier * multiplier; ;//
+        myRb.linearVelocity = Vector3.Lerp(Vector3.zero, playerDistance, playerDistance.magnitude) * modifier * multiplier; ;//
         //myRb.MovePosition(transform.position + playerDistance.normalized * Time.deltaTime * speed);
     }
 
@@ -48,9 +55,28 @@ public class Enemy : Modifier
     }
 
     void Die(){
+        OnEnemyDied?.Invoke();
         mySpawner.EnemyDie();
         var deathp = Instantiate(deathParticle, transform.position, Quaternion.identity);
+        OnDied?.Invoke();
+        InstantiateAudio(dieClip, new Vector2(0.95f, 1f));
         Destroy(deathp, 2);
         Destroy(gameObject);
+    }
+
+    public void InstantiateAudio(AudioClip clip, Vector2 randomPitch)
+    {
+        GameObject audioObject = new GameObject("AudioPlayer");
+        AudioSource source = audioObject.AddComponent<AudioSource>();
+
+        source.clip = clip;
+        source.playOnAwake = false;
+        source.loop = false;
+        float randomPitchValue = Random.Range(randomPitch.x, randomPitch.y);
+        source.pitch = randomPitchValue;
+
+        source.Play();
+
+        Destroy(audioObject, clip.length);
     }
 }

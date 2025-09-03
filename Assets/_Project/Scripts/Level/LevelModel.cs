@@ -5,7 +5,8 @@ using UnityEngine;
 public class LevelModel : MonoBehaviour
 {
     public int score, bestScore;
-    public float levelTime, timeRemaining;
+    public float levelTime, timeRemaining, levelCounter;
     public string title;
     public bool timeIsRunning;
+    public int enemiesKilled;
 }

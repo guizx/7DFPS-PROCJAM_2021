@@ -32,24 +32,25 @@ public class PlayerGameInput : MonoBehaviour
         return inputActions.Player.Look.ReadValue<Vector2>();
     }
 
-    /// <summary>
-    /// Checks if the sprint button was pressed this frame.
-    /// </summary>
-    public bool IsSprintInputStart()
+    public bool IsCrouchHeldInput()
     {
-        return inputActions.Player.Sprint.ReadValue<bool>();
+        return inputActions.Player.Crouch.IsPressed();
     }
 
-    /// <summary>
-    /// Checks if the sprint button was released this frame.
-    /// </summary>
-    public bool IsSprintInputStop()
+
+    public bool IsCrouchStartInput()
     {
-        return inputActions.Player.Sprint.ReadValue<bool>();
+        return inputActions.Player.Crouch.WasPressedThisFrame();
+    }
+
+
+    public bool IsCrouchStopInput()
+    {
+        return inputActions.Player.Crouch.WasReleasedThisFrame();
     }
 
     public bool IsJumpInput()
     {
-        return inputActions.Player.Jump.ReadValue<bool>();
+        return inputActions.Player.Jump.WasPressedThisFrame();
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
 using UnityEngine;
 
 public class SpawnMod : Modifier
@@ -17,6 +18,9 @@ public class SpawnMod : Modifier
     public int enemyCount, enemyLimit;
     bool wait;
     // Start is called before the first frame update
+
+    public AudioClip impactClip;
+    public AudioClip dieClip;
     public void Initialize(int range, Transform spawnPoint)
     {
         level = GameObject.Find("Level").GetComponent<LevelController>();
@@ -85,6 +89,8 @@ public class SpawnMod : Modifier
     }
 
     public void Hit(){
+        InstantiateAudio(impactClip, new Vector2(0.95f, 1f));
+
         emissionMod.TweenColor();
         health--;
         if(health == 0) Die();
@@ -95,6 +101,7 @@ public class SpawnMod : Modifier
         var deathp = Instantiate(birthParticle, transform, false);
         spawnerController.SpawnDeath(this, (int)rangeToFollow, mySpawnPoint);
         LeanTween.moveY(gameObject, -15.0f, 1.0f).setOnComplete(FinishDeath);
+        InstantiateAudio(dieClip, Vector2.one);
         Destroy(deathp, 2);
     }
 
@@ -105,5 +112,21 @@ public class SpawnMod : Modifier
     public void EnemyDie(){
         level.AddScore(10);
         enemyCount--;
+    }
+
+    public void InstantiateAudio(AudioClip clip, Vector2 randomPitch)
+    {
+        GameObject audioObject = new GameObject("AudioPlayer");
+        AudioSource source = audioObject.AddComponent<AudioSource>();
+
+        source.clip = clip;
+        source.playOnAwake = false;
+        source.loop = false;
+        float randomPitchValue = Random.Range(randomPitch.x, randomPitch.y);    
+        source.pitch = randomPitchValue;
+
+        source.Play();
+
+        Destroy(audioObject, clip.length);
     }
 }

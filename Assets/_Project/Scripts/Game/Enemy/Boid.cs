@@ -82,13 +82,13 @@ public class Boid : MonoBehaviour
             velocity = velocity.normalized * maxVelocity;
         }
 
-        myRb.velocity += velocity * Time.deltaTime;
+        myRb.linearVelocity += velocity * Time.deltaTime;
 
         aggroDistance = playerObj.transform.position - this.transform.position;
         
         if(aggroDistance.magnitude < aggroRadius && aggro){
             this.transform.LookAt(playerObj.transform);
-            myRb.velocity = Vector3.Lerp(Vector3.zero, aggroDistance, aggroDistance.magnitude);
+            myRb.linearVelocity = Vector3.Lerp(Vector3.zero, aggroDistance, aggroDistance.magnitude);
         }
 
         //fake gravity

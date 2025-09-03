@@ -3,13 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public class PlayerHealth : MonoBehaviour
 {
     LevelController levelController;
     public float health, invulDur;
-    public Slider slider; 
-    bool invul, dead;
+    public Slider slider;
+    bool invul;
+    public static bool dead;
+
+    public GameObject hurtEffectUI;
+    public float hurtEffectDuration;
+
+    public UnityEvent OnHurt;
+    public UnityEvent OnDied;
+
     private void Start() {
         levelController = GameObject.Find("Level").GetComponent<LevelController>();
         slider.maxValue = health;
@@ -19,7 +28,9 @@ public class PlayerHealth : MonoBehaviour
     private void OnCollisionEnter(Collision other) {
         if(other.gameObject.tag == "Enemy" && !invul && !dead){
             StartCoroutine(Invulnerable());
+            StartCoroutine(HurtEffectCoroutine());
             Damage(0.1f);
+            OnHurt?.Invoke();
         }
         else if(other.gameObject.tag == "DeathPit" && !dead){
             Die();
@@ -40,5 +51,13 @@ public class PlayerHealth : MonoBehaviour
     void Die(){
         dead = true;
         levelController.GameOver();
+        OnDied?.Invoke();
+    }
+
+    private IEnumerator HurtEffectCoroutine()
+    {
+        hurtEffectUI.SetActive(true);
+        yield return new WaitForSeconds(hurtEffectDuration);
+        hurtEffectUI.SetActive(false);
     }
 }

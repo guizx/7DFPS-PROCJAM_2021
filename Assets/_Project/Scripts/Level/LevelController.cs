@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class LevelController : MonoBehaviour
@@ -33,16 +35,32 @@ public class LevelController : MonoBehaviour
         levelModel.levelTime = levelInfo.data.levelTime;
         levelModel.timeRemaining = levelModel.levelTime;
         levelModel.timeIsRunning = true;
+        levelModel.enemiesKilled = 0;
 
         //Debug.Log(levelModel.title + " level model is completed with + " + levelModel.levelTime + "seconds in time!");
         levelView.Initialize();
 
         //Destroy(levelInfo.gameObject);
+
+        Enemy.OnEnemyDied += HandleOnEnemyDied;
+    }
+
+    private void OnDestroy()
+    {
+        Enemy.OnEnemyDied -= HandleOnEnemyDied;
+
+    }
+
+    private void HandleOnEnemyDied()
+    {
+        levelModel.enemiesKilled++;
     }
 
     // Update is called once per frame
     void Update()
     {
+        levelModel.levelCounter += Time.deltaTime;
+
         if (levelModel.timeIsRunning)
         {
             if (levelModel.timeRemaining > 0)
@@ -58,17 +76,35 @@ public class LevelController : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape)){// && !pause){
-            Pause();
+        if (PlayerHealth.dead)
+            return;
+
+        if (Keyboard.current.escapeKey.wasPressedThisFrame || Keyboard.current.pKey.wasPressedThisFrame)
+            {// && !pause){
+                if (!pause)
+                    Pause();
+                else
+                    Resume();
+            }
+
+        if (Gamepad.current != null && Gamepad.current.startButton.wasPressedThisFrame)
+        {// && !pause){
+            if (!pause)
+                Pause();
+            else
+                Resume();
         }
 
-        if(levelModel.timeRemaining <= 0) LevelFinished();
+
+        if (levelModel.timeRemaining <= 0) LevelFinished();
     }
-    public void AddScore(int score){
+    public void AddScore(int score)
+    {
         levelModel.score += score;
     }
 
-    void LevelFinished(){
+    void LevelFinished()
+    {
         pause = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -76,14 +112,17 @@ public class LevelController : MonoBehaviour
         levelView.LevelFinished();
     }
 
-    public void GameOver(){
+    public void GameOver()
+    {
         pause = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         Time.timeScale = 0.0f;
         levelView.GameOver();
     }
-    public void BackToMenu(){
+
+    public void BackToMenu()
+    {
         pause = false;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
@@ -92,7 +131,8 @@ public class LevelController : MonoBehaviour
         Destroy(levelInfo.gameObject);
         SceneManager.LoadScene("BackToMenu", LoadSceneMode.Single);
     }
-    public void Pause(){
+    public void Pause()
+    {
         audioPeer._audioSource.Pause();
         pause = true;
         Cursor.lockState = CursorLockMode.None;
@@ -102,7 +142,8 @@ public class LevelController : MonoBehaviour
         levelModel.timeIsRunning = false;
     }
 
-    public void Resume(){
+    public void Resume()
+    {
         audioPeer._audioSource.Play();
         pause = false;
         Cursor.lockState = CursorLockMode.Locked;
@@ -110,14 +151,16 @@ public class LevelController : MonoBehaviour
         levelModel.timeIsRunning = true;
         Time.timeScale = 1.0f;
         levelView.Resume();
-        
+
     }
 
-    public void Main(){
+    public void Main()
+    {
         //SceneManager.LoadScene("Main", LoadSceneMode.Single);
     }
 
-    public void Exit(){
+    public void Exit()
+    {
         Application.Quit();
     }
 }

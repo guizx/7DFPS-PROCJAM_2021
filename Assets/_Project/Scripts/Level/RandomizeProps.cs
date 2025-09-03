@@ -10,17 +10,20 @@ public class RandomizeProps : MonoBehaviour
     {
         //var rnd = new System.Random();
         //props.OrderBy(item => rnd.Next());
-        
+
         /*for (int i = 0; i < 10; i++)
         {
             props[i].SetActive(true);
         }*/
+        randProps.Clear();
 
-        for (int i = 11; i > 0; i--)
+        int count = Mathf.Min(11, props.Count);
+
+        for (int i = 0; i < count; i++)
         {
-            var rand = Random.Range(0, props.Count -1);
+            int rand = Random.Range(0, props.Count);
             randProps.Add(props[rand]);
-            props.Remove(props[rand]);
+            props.RemoveAt(rand);
         }
 
         foreach (var prop in randProps)

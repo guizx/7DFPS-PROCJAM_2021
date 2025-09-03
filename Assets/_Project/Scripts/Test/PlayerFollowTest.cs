@@ -17,6 +17,6 @@ public class PlayerFollowTest : MonoBehaviour
     {
         var diff = player.transform.position - this.transform.position;
         this.transform.LookAt(player.transform);
-        myRb.velocity = Vector3.Lerp(Vector3.zero, diff, diff.magnitude);
+        myRb.linearVelocity = Vector3.Lerp(Vector3.zero, diff, diff.magnitude);
     }
 }

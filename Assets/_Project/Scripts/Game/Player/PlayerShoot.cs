@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.InputSystem;
 
 public class PlayerShoot : MonoBehaviour
 {
@@ -16,6 +18,9 @@ public class PlayerShoot : MonoBehaviour
     Vector3 destination;
     LevelController levelController;
     bool burst;
+
+    public UnityEvent OnPrimaryShoot;
+    public UnityEvent OnSecondatyShoot;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,33 +30,83 @@ public class PlayerShoot : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(burst)fireRate = burstRate;
+        if (burst) fireRate = burstRate;
         else fireRate = regularRate;
-        
-        if(Input.GetMouseButton(0) && Time.time >= timeToFire && !levelController.pause){
+
+        bool isLeftMouseHeld = Mouse.current.leftButton.isPressed;
+        bool isLeftMouseUp = Mouse.current.leftButton.wasPressedThisFrame;
+        bool isRightMouseHeld = Mouse.current.rightButton.isPressed;
+        bool isRightMouseUp = Mouse.current.rightButton.wasPressedThisFrame;
+
+
+
+
+        if (isLeftMouseHeld && Time.time >= timeToFire && !levelController.pause)
+        {
             burst = false;
             Debug.Log(Time.time);
-            timeToFire = Time.time + 1.0f/fireRate;
+            timeToFire = Time.time + 1.0f / fireRate;
             anim.SetBool("Shooting", true);
             Shoot();
         }
-        if(Input.GetMouseButtonUp(0)){
+        if (isLeftMouseUp)
+        {
             anim.SetBool("Shooting", false);
         }
-        if(Input.GetMouseButton(1) && Time.time >= timeToFire && !levelController.pause){
+        if (isRightMouseHeld && Time.time >= timeToFire && !levelController.pause)
+        {
             burst = true;
             Debug.Log(Time.time);
-            timeToFire = Time.time + 1.0f/fireRate;
+            timeToFire = Time.time + 1.0f / fireRate;
             anim.SetBool("Shooting", true);
             BurstShoot();
         }
-        if(Input.GetMouseButtonUp(1)){
+        if (isRightMouseUp)
+        {
             anim.SetBool("Shooting", false);
+        }
+
+
+        if (Gamepad.current != null)
+        {
+            bool isPrimaryShootHeld = Gamepad.current.rightTrigger.isPressed;
+            bool isPrimaryShootUp = Gamepad.current.rightTrigger.wasReleasedThisFrame; 
+
+            bool isSecondaryShootHeld = Gamepad.current.leftTrigger.isPressed;
+            bool isSecondatyShootUp = Gamepad.current.leftTrigger.wasReleasedThisFrame; 
+
+
+            if (isPrimaryShootHeld && Time.time >= timeToFire && !levelController.pause)
+            {
+                burst = false;
+                Debug.Log(Time.time);
+                timeToFire = Time.time + 1.0f / fireRate;
+                anim.SetBool("Shooting", true);
+                Shoot();
+            }
+            if (isPrimaryShootUp)
+            {
+                anim.SetBool("Shooting", false);
+            }
+            if (isSecondaryShootHeld && Time.time >= timeToFire && !levelController.pause)
+            {
+                burst = true;
+                Debug.Log(Time.time);
+                timeToFire = Time.time + 1.0f / fireRate;
+                anim.SetBool("Shooting", true);
+                BurstShoot();
+            }
+            if (isSecondatyShootUp)
+            {
+                anim.SetBool("Shooting", false);
+            }
         }
     }
 
-    void Shoot(){
-        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Shoot")){
+    void Shoot()
+    {
+        if (!anim.GetCurrentAnimatorStateInfo(0).IsName("Shoot"))
+        {
             anim.SetTrigger("Shoot");
         }
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
@@ -60,18 +115,22 @@ public class PlayerShoot : MonoBehaviour
         //else destination = ray.GetPoint(maxDistance);
         //destination = ray.direction;
         InstantiateProjectile(ray.direction);
+        OnPrimaryShoot?.Invoke();
     }
-    void BurstShoot(){
+    void BurstShoot()
+    {
         muzzle.Play();
         Ray ray = cam.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
         var burst = Instantiate(burstPrefab, firePoint);
         Destroy(burst, 1);
+        OnSecondatyShoot?.Invoke();
     }
 
-    void InstantiateProjectile(Vector3 direction){
+    void InstantiateProjectile(Vector3 direction)
+    {
         muzzle.Play();
         //Vector3 direction = destination - firePoint.transform.position;
-        Bullet bullet = Instantiate (projectilePrefab, firePoint.position, Quaternion.LookRotation(direction)).GetComponent<Bullet>();
+        Bullet bullet = Instantiate(projectilePrefab, firePoint.position, Quaternion.LookRotation(direction)).GetComponent<Bullet>();
         bullet.Setup(direction.normalized);
         //Vector3 inheritedVelocity = playerRB.GetPointVelocity(playerRB.gameObject.transform.position);
         //Vector3 inheritedVelocity = playerRB.velocity;

@@ -26,6 +26,9 @@ public class AnimMod : Modifier
     void Update()
     {
         Modify();
+        if (anim == null)
+            return;
+
         if(param == ParamType.Trigger && modifier > threshold)  anim.SetTrigger(ParamName);
         if(affectSpeed) anim.speed = modifier * multiplier;
     }
