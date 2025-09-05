@@ -14,16 +14,33 @@ public class MainController : MonoBehaviour
 
     void Start()
     {
-        if(CampaignModel.campaigns.Count == 0) StartCoroutine(GetCampaigns());
-        else menuView.GenerateScrolls();
-
-        if(transition) menuView.SetState(MenuView.STATE.CampaignSelect);
-        else menuView.SetState(MenuView.STATE.Start);
+        StartCoroutine(Init());
     }
 
-    void Test(){
+    IEnumerator Init()
+    {
+        // Carrega campanhas se ainda não foram carregadas
+        if (CampaignModel.campaigns.Count == 0)
+            yield return StartCoroutine(GetCampaigns());
+        else
+            menuView.GenerateScrolls();
+
+        // Agora que tudo foi carregado, setamos o estado
+        if (transition)
+            menuView.SetState(MenuView.STATE.CampaignSelect);
+        else
+            menuView.SetState(MenuView.STATE.Start);
+
+        // Limpa objetos de Levels antigos
+        LevelInfo[] levels = FindObjectsOfType<LevelInfo>();
+        for (int i = 0; i < levels.Length; i++)
+            Destroy(levels[i].gameObject);
+    }
+
+    void Test()
+    {
         DirectoryInfo mainDirectory = new DirectoryInfo(Application.streamingAssetsPath + "/Music/");
-        DirectoryInfo[] directories = mainDirectory.GetDirectories ();
+        DirectoryInfo[] directories = mainDirectory.GetDirectories();
         foreach (var directory in directories)
         {
             Debug.Log("Folder name is " + directory.Name);
@@ -31,11 +48,12 @@ public class MainController : MonoBehaviour
             var files = directory.GetFiles();
             foreach (var file in files)
             {
-                if(file.FullName.EndsWith(".mp3")) Debug.Log("Music path is " + file);
+                if (file.FullName.EndsWith(".mp3")) Debug.Log("Music path is " + file);
             }
         }
     }
-    
+
+
     IEnumerator GetCampaigns(){
         yield return new WaitForSeconds(0.1f);
         Debug.Log("Generating campaigns...");
@@ -105,7 +123,7 @@ public class MainController : MonoBehaviour
                         level.levelTime = level.song.length;
                     }
                     //*/
-                    
+
                     /*/
                     WWW request = new WWW(files[j].FullName);
                     yield return request;
@@ -120,7 +138,7 @@ public class MainController : MonoBehaviour
                     level.song = NAudioPlayer.FromMp3Data(bytes);
                     level.levelTime = level.song.length;
                     //*/
-                    
+
                     campaign.levels.Add(level);
                 }
             }
@@ -135,25 +153,49 @@ public class MainController : MonoBehaviour
         menuView.GenerateScrolls();
     }
 
-    public void BackToStart(){
+    public void BackToStart()
+    {
         menuView.SetState(MenuView.STATE.Start);
     }
 
-    public void Campaign(){
+    public void Campaign()
+    {
         menuView.SetState(MenuView.STATE.CampaignSelect);
     }
-    
-    public void CampaignSelect(int index){
+
+    public void CampaignSelect(int index)
+    {
         Debug.Log("Campaign " + index + " selected!");
         menuView.DisplayLevels(index);
         menuView.SetState(MenuView.STATE.LevelSelect);
     }
 
-    public void PlayLevel(){
+    public void PlayLevel()
+    {
         SceneManager.LoadScene("Game", LoadSceneMode.Single);
     }
 
-    public void Exit(){
+    public void Option()
+    {
+        menuView.SetState(MenuView.STATE.Option);
+    }
+
+    public void Exit()
+    {
         Application.Quit();
     }
+}
+
+
+[System.Serializable]
+public class CampaignJson
+{
+    public string title;
+    public List<string> levels;
+}
+
+[System.Serializable]
+public class CampaignList
+{
+    public List<CampaignJson> campaigns;
 }

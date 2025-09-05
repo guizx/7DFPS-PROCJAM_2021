@@ -6,15 +6,22 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/_Project/Scenes/SplashScreen.unity
+    guid: e9f852fb4ab1a6244b0f763e05367c41
+  - enabled: 1
+    path: Assets/_Project/Scenes/GamepadScreen.unity
+    guid: 9ceaa9df647f48f42a38d7d4a1557bcb
+  - enabled: 1
     path: Assets/_Project/Scenes/Main.unity
     guid: 5bd62f895a9ea704280dd9fa86d1b6c6
   - enabled: 1
     path: Assets/_Project/Scenes/Game.unity
     guid: 5c6ecc72d91f79d45bffaae57012cab5
-  - enabled: 1
+  - enabled: 0
     path: Assets/_Project/Scenes/BackToMenu.unity
     guid: f20146e703c4c374ba911d4bdc723c99
   - enabled: 0
     path: Assets/_Project/Scenes/Test/PhysBoids test.unity
     guid: ac10634dc9213594f9a45b56be36e82c
   m_configObjects: {}
+  m_UseUCBPForAssetBundles: 0

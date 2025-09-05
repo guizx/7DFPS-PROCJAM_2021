@@ -19,39 +19,69 @@ public class PlayerHealth : MonoBehaviour
     public UnityEvent OnHurt;
     public UnityEvent OnDied;
 
-    private void Start() {
+    private void Start()
+    {
         levelController = GameObject.Find("Level").GetComponent<LevelController>();
         slider.maxValue = health;
         slider.value = health;
     }
-    
-    private void OnCollisionEnter(Collision other) {
-        if(other.gameObject.tag == "Enemy" && !invul && !dead){
+
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.tag == "Enemy" && !invul && !dead)
+        {
             StartCoroutine(Invulnerable());
             StartCoroutine(HurtEffectCoroutine());
             Damage(0.1f);
             OnHurt?.Invoke();
         }
-        else if(other.gameObject.tag == "DeathPit" && !dead){
+
+        else if (other.gameObject.tag == "Boss" && !invul && !dead)
+        {
+            StartCoroutine(Invulnerable());
+            StartCoroutine(HurtEffectCoroutine());
+            Damage(0.1f);
+            OnHurt?.Invoke();
+        }
+        else if (other.gameObject.tag == "DeathPit" && !dead)
+        {
             Die();
         }
     }
 
-    IEnumerator Invulnerable(){
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy" && !invul && !dead)
+        {
+            StartCoroutine(Invulnerable());
+            StartCoroutine(HurtEffectCoroutine());
+            Damage(0.1f);
+            OnHurt?.Invoke();
+        }
+    }
+
+    IEnumerator Invulnerable()
+    {
         invul = true;
         yield return new WaitForSeconds(invulDur);
         invul = false;
     }
 
-    void Damage(float dmg){
+    void Damage(float dmg)
+    {
         slider.value = health;
         health -= dmg;
-        if(health <= 0) Die();
+        if (health <= 0) Die();
     }
-    void Die(){
-        dead = true;
-        levelController.GameOver();
-        OnDied?.Invoke();
+    void Die()
+    {
+        if (!dead)
+        {            
+            dead = true;
+            levelController.GameOver();
+            OnDied?.Invoke();
+        }
     }
 
     private IEnumerator HurtEffectCoroutine()

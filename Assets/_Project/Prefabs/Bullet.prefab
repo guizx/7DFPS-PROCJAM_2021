@@ -74,7 +74,8 @@ MonoBehaviour:
   spawnImpactPrefab: {fileID: 3134723637540897038, guid: 98ffbdeb72bf7704f8aa109d75260d82,
     type: 3}
   lifeTime: 5
-  speed: 40
+  speed: 25
+  isPlayerBullet: 1
 --- !u!54 &7580575991778831566
 Rigidbody:
   m_ObjectHideFlags: 0

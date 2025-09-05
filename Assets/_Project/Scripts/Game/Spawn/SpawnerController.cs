@@ -10,18 +10,32 @@ public class SpawnerController : Modifier
     public List<Transform> availableSpawnPoints, takenSpawnPoints;
     public List<int> spawnIndexes;
     public float threshold, initialDelay, spawnDelay;
-    
+
     public bool wait = true;
     // Start is called before the first frame update
     void Start()
     {
         //SpawnMod instance = Instantiate(spawnerPrefab, spawnPoints[0]);
         //instance.Initialize(0);
-        LeanTween.init( 800 );
+        LeanTween.init(800);
         StartCoroutine(Wait());
+
+        LevelController.OnBossSpawned += HandleOnBossSpawned;
     }
 
-    IEnumerator Wait(){
+    private void OnDestroy()
+    {
+        LevelController.OnBossSpawned -= HandleOnBossSpawned;
+    }
+
+    private void HandleOnBossSpawned()
+    {
+        enabled = false;
+        gameObject.SetActive(false);
+    }
+
+    IEnumerator Wait()
+    {
         yield return new WaitForSeconds(initialDelay);
         wait = false;
     }
@@ -30,16 +44,18 @@ public class SpawnerController : Modifier
     void Update()
     {
         Modify();
-        if(spawners.Count < 8 && !wait) CheckBands();
+        if (spawners.Count < 8 && !wait) CheckBands();
     }
-    void CheckBands(){
+    void CheckBands()
+    {
         for (int i = 0; i < 8; i++)
         {
-            if(allModifiers[i] > threshold && !spawnIndexes.Contains(i)) StartCoroutine(Spawn(i));
+            if (allModifiers[i] > threshold && !spawnIndexes.Contains(i)) StartCoroutine(Spawn(i));
         }
     }
 
-    IEnumerator Spawn(int index){
+    IEnumerator Spawn(int index)
+    {
         wait = true;
         yield return new WaitForSeconds(spawnDelay);
         spawnIndexes.Add(index);
@@ -52,10 +68,16 @@ public class SpawnerController : Modifier
         wait = false;
     }
 
-    public void SpawnDeath(SpawnMod spawner, int index, Transform spawnPoint){
+    public void SpawnDeath(SpawnMod spawner, int index, Transform spawnPoint)
+    {
         spawners.Remove(spawner);
         spawnIndexes.Remove(index);
         takenSpawnPoints.Remove(spawnPoint);
         availableSpawnPoints.Add(spawnPoint);
+    }
+
+    public void SetSpawner(SpawnMod spawner)
+    {
+        spawnerPrefab = spawner;
     }
 }

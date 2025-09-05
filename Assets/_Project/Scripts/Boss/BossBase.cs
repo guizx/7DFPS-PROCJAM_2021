@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace Nato
 {
@@ -44,9 +45,17 @@ namespace Nato
         [SerializeField] protected Collider2D damagePlayerCollider;
         [SerializeField] protected Collider2D[] otherColliders;
 
+        [SerializeField] private GameObject graphic;
+        public bool Dead;
 
+        public int Health = 200;
+        [SerializeField] private Slider levelSlider;
+        [SerializeField] private Slider bossHealthSlider;
 
+        public GameObject dieEffectPrefab;
         [field: SerializeField] public Transform PivotTarget;
+        public AudioClip dieAudio;
+        public AudioSource dieAudioSource;
 
         public virtual void Awake()
         {
@@ -57,8 +66,11 @@ namespace Nato
             Body = GetComponent<Rigidbody>();
             MultipleExplosionEffect = GetComponent<MultipleExplosionEffect>();
             MultipleExplosionEffect.OnExplosionUpdated.AddListener(DieEffect);
-
-
+            levelSlider.gameObject.SetActive(false);
+            bossHealthSlider.gameObject.SetActive(true);
+            bossHealthSlider.maxValue = Health;
+            bossHealthSlider.minValue = 0;
+            bossHealthSlider.value = Health;
         }
 
         private void DieEffect()
@@ -200,15 +212,25 @@ namespace Nato
 
         }
 
+        public virtual void Hit()
+        {
+            if (Health > 0)
+            {
+                Health--;
+                bossHealthSlider.value = Health;
+            }
+            else if (Health <= 0 && !Dead)
+            {
+                dieAudioSource.PlayOneShot(dieAudio);
+                Dead = true;
+                Instantiate(dieEffectPrefab, transform.position, Quaternion.identity);
+                FindFirstObjectByType<LevelController>()?.StopAudio();
+                FindFirstObjectByType<LevelController>()?.LevelFinished(3f);
+                gameObject.SetActive(false);
+            }
+        }
 
-
-
-
-
-
-
-
-
+        
     }
 }
 

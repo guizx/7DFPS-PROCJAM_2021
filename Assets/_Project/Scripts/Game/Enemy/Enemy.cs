@@ -21,12 +21,24 @@ public class Enemy : Modifier
     // Start is called before the first frame update
     void Start()
     {
+        LevelController.OnBossSpawned += HandleOnBossSpawned;
         var birthp = Instantiate(birthParticle, transform.position, Quaternion.identity);
         Destroy(birthp, 2);
         myRb = GetComponent<Rigidbody>();
         playerObj = GameObject.Find("Player");
         //gravityVector = new Vector3(0, gravityVelocity, 0);
         InvokeRepeating("FindPlayer", 1.0f, findPlayerRate);
+    }
+
+    void OnDestroy()
+    {
+        LevelController.OnBossSpawned -= HandleOnBossSpawned;
+
+    }
+
+    private void HandleOnBossSpawned()
+    {
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
@@ -40,21 +52,24 @@ public class Enemy : Modifier
         //myRb.MovePosition(transform.position + playerDistance.normalized * Time.deltaTime * speed);
     }
 
-    void FindPlayer(){
-        if(playerObj == null) return;
+    void FindPlayer()
+    {
+        if (playerObj == null) return;
         playerDistance = playerObj.transform.position - this.transform.position;
         playerDistance = new Vector3(playerDistance.x + Random.Range(-orbitRadius, orbitRadius), playerDistance.y, playerDistance.z + Random.Range(-orbitRadius, orbitRadius));
         //this.transform.LookAt(playerDistance);
     }
 
-    public void Hit(){
+    public void Hit()
+    {
         //myEmissionMod.TweenColor();
         //health--;
         //if(health == 0) Die();
         Die();
     }
 
-    void Die(){
+    void Die()
+    {
         OnEnemyDied?.Invoke();
         mySpawner.EnemyDie();
         var deathp = Instantiate(deathParticle, transform.position, Quaternion.identity);

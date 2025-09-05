@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class LevelView : MonoBehaviour
@@ -9,6 +10,9 @@ public class LevelView : MonoBehaviour
     public LevelModel levelModel;
     public Text titleText, timerText, scoreText, bestScoreText;
     public GameObject pauseWindow, gameOverWindow, levelFinishedWindow;
+    public GameObject ResumeButton;
+    public GameObject MenuButton;
+
     public Slider levelDurationSlider;
     // Start is called before the first frame update
 
@@ -19,6 +23,9 @@ public class LevelView : MonoBehaviour
     public List<ResultGame> results = new List<ResultGame>();
 
     public AudioSource audioSource;
+    public AudioClip finishedLevelAudio;
+    public AudioClip resultAudio;
+    
 
     public void Initialize()
     {
@@ -54,6 +61,7 @@ public class LevelView : MonoBehaviour
     public void Pause()
     {
         pauseWindow.SetActive(true);
+        EventSystem.current.SetSelectedGameObject(ResumeButton);
     }
 
     public void Resume()
@@ -78,6 +86,8 @@ public class LevelView : MonoBehaviour
 
     private IEnumerator ShowResultsCoroutine(List<ResultGame> results)
     {
+        audioSource.PlayOneShot(finishedLevelAudio);
+
         float minutes = Mathf.FloorToInt(levelModel.levelCounter / 60);
         float seconds = Mathf.FloorToInt(levelModel.levelCounter % 60);
         timeResult.text.SetText("TIME - " + string.Format("{0:00}:{1:00}", minutes, seconds));
@@ -96,8 +106,10 @@ public class LevelView : MonoBehaviour
 
             yield return new WaitForSecondsRealtime(0.3f);
             results[i].canvasGroup.alpha = 1;
+            audioSource.clip = resultAudio;
             audioSource.Play();
         }
+        EventSystem.current.SetSelectedGameObject(MenuButton);
     }
 }
 

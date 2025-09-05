@@ -58,6 +58,10 @@ public class PlayerMovement : MonoBehaviour
     private float mouseSensitivity;
     private float gamepadSensitivity;
 
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip jumpAudioClip;
+    [SerializeField] private AudioClip landAudioClip;
+
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -176,6 +180,13 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    public void StopAnimations()
+    {
+        playerAnimator.SetBool("Grounded", true);
+        playerAnimator.SetInteger("Movement", 0);
+        cameraAnimator.SetInteger("Movement", 0);
+    }
+
     private void StartCrouch()
     {
         transform.localScale = crouchScale;
@@ -250,6 +261,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (grounded && readyToJump)
         {
+            audioSource.PlayOneShot(jumpAudioClip);
             cameraAnimator.SetTrigger("Jump");
             readyToJump = false;
 
@@ -307,6 +319,28 @@ public class PlayerMovement : MonoBehaviour
         else if (x == -1) tilt = Mathf.Lerp(tilt, camTilt, camTiltTime * Time.deltaTime);
         else tilt = Mathf.Lerp(tilt, 0, camTiltTime * Time.deltaTime);
 
+        playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, tilt);
+        orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
+    }
+
+    public void LookAtTarget(Transform target)
+    {
+        if (target == null) return;
+
+        // Direção do playerCam até o alvo
+        Vector3 dir = (target.position - playerCam.transform.position).normalized;
+
+        // Rotação desejada (só olhando para frente do alvo)
+        Quaternion lookRot = Quaternion.LookRotation(dir);
+
+        // Quebrar em euler para manter o mesmo sistema do seu script
+        Vector3 euler = lookRot.eulerAngles;
+
+        // Atualizar variáveis internas
+        desiredX = euler.y;
+        xRotation = euler.x;
+
+        // Aplicar rotação imediatamente
         playerCam.transform.localRotation = Quaternion.Euler(xRotation, desiredX, tilt);
         orientation.transform.localRotation = Quaternion.Euler(0, desiredX, 0);
     }
@@ -400,6 +434,13 @@ public class PlayerMovement : MonoBehaviour
             cancellingGrounded = true;
             Invoke(nameof(StopGrounded), Time.deltaTime * delay);
         }
+    }
+
+    private void OnCollisionEnter(Collision other)
+    {
+
+
+
     }
 
     private void StopGrounded()

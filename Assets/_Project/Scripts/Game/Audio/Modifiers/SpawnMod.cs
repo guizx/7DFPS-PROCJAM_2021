@@ -21,6 +21,8 @@ public class SpawnMod : Modifier
 
     public AudioClip impactClip;
     public AudioClip dieClip;
+
+
     public void Initialize(int range, Transform spawnPoint)
     {
         level = GameObject.Find("Level").GetComponent<LevelController>();
@@ -32,7 +34,7 @@ public class SpawnMod : Modifier
         GetComponent<ScaleMod>().rangeToFollow = rangeToFollow;
         emissionMod = GetComponentInChildren<EmissionMod>();
         emissionMod.rangeToFollow = rangeToFollow;
-        
+
         var birthp = Instantiate(birthParticle, transform, false);
         Destroy(birthp, 2);
 
@@ -42,25 +44,25 @@ public class SpawnMod : Modifier
         switch (range)
         {
             case 0:
-            enemy = enemies[0];
-            myRend.material = materials[0];
-            break;
+                enemy = enemies[0];
+                myRend.material = materials[0];
+                break;
             case 1:
             case 2:
-            enemy = enemies[1];
-            myRend.material = materials[1];
-            break;
+                enemy = enemies[1];
+                myRend.material = materials[1];
+                break;
             case 3:
             case 4:
             case 5:
-            enemy = enemies[2];
-            myRend.material = materials[2];
-            break;
+                enemy = enemies[2];
+                myRend.material = materials[2];
+                break;
             case 6:
             case 7:
-            enemy = enemies[3];
-            myRend.material = materials[3];
-            break;
+                enemy = enemies[3];
+                myRend.material = materials[3];
+                break;
         }
     }
 
